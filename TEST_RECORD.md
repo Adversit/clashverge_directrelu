@@ -33,3 +33,9 @@ Date: 2026-10-02, Asia/Shanghai. Repository: G:/AI_projects/clashvergedirectrelu
 - UTF-8 re-read of all 18 project text files: no U+FFFD and no runs of five question marks. Chinese content is intact. Subsequent edits also use UTF-8 through apply_patch.
 - Browser visual review: Chinese content legible, controls visible, status and success message shown, default five targets present. Browser add/delete/duplicate/apply/restore/reapply verified against actual backend and core, not mocked UI.
 - Git staged diff check passed. All 18 staged project files were scanned against actual local core secret and full subscription URLs: zero matches; no data/ files staged, no UTF-8 replacement characters or long question-mark runs. Local data/backups and screenshots are ignored.
+
+## 2026-10-02: product title and general-purpose copy
+
+- Browser reloaded the live page: document.title is exactly 手动智能路由; brand is ROUTING / 手动智能路由; hero is 手动选择，智能路由。 Domestic websites and local programs are now described throughout the shared page, connection hints and README.
+- UTF-8 re-read confirmed the exact title and no replacement characters or long question-mark runs in changed frontend files. `node --check static/app.js` and `git diff --check` passed.
+- Screenshot refreshed at screenshots/desktop.png. This change only edits displayed text and README; routing contracts and persisted targets retain their existing implementation.

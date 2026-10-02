@@ -7,7 +7,7 @@ async function refresh(){const s=await request('/api/state');token=s.token;$('on
  $('targets').replaceChildren();$('empty').hidden=s.targets.length>0;
  for(const t of s.targets){const row=el('div',undefined,'target-row');const info=el('div');info.append(el('div',t.value,'target-value'),el('span',t.label,'target-label'));info.title=t.source;const del=el('button','×');del.type='button';del.setAttribute('aria-label','删除 '+t.value);del.onclick=()=>perform(async()=>{await request('/api/targets/'+t.id,'DELETE');return '已删除并保存，请应用规则。';});row.append(el('span',t.kind==='folder'?'FOLDER':'DOMAIN','tag'),info,del);$('targets').append(row);}
  $('connections').replaceChildren();$('connection-count').textContent=s.connections.length+' 条连接';
- if(!s.connections.length)$('connections').append(el('div',s.online?'尚未观察到目标连接。请运行游戏或打开目标网站，再刷新；这不能证明游戏已直连。':'内核未连接，无法读取实时通道。','no-connections'));
+ if(!s.connections.length)$('connections').append(el('div',s.online?'尚未观察到目标连接。请打开目标网站或运行目标程序，再刷新；未观察到连接不能证明已直连。':'内核未连接，无法读取实时通道。','no-connections'));
  for(const c of s.connections){const row=el('div',undefined,'connection');const info=el('div',c.host||c.destinationIP);info.append(el('small',c.processPath||c.process||'未识别进程'),el('small',`${c.network||''} · ${c.rule} · ${c.rulePayload||''}`));row.append(info,el('div',c.chains.join(' → '),'chain'));$('connections').append(row);}
  $('rules').textContent=s.rules.join('\n')||'无规则';$('inventory').textContent=s.executables.join('\n')||'无可读取的目录程序';
  if(s.pendingRecovery)notice('上次操作中断，请先恢复中断操作。',true);else if(s.error)notice(s.error,true);else if(s.mode!=='rule'&&s.online)notice('请在 Clash Verge 切换到规则模式，直连规则才能参与分流。',true);
