@@ -39,3 +39,25 @@ Date: 2026-10-02, Asia/Shanghai. Repository: G:/AI_projects/clashvergedirectrelu
 - Browser reloaded the live page: document.title is exactly 手动智能路由; brand is ROUTING / 手动智能路由; hero is 手动选择，智能路由。 Domestic websites and local programs are now described throughout the shared page, connection hints and README.
 - UTF-8 re-read confirmed the exact title and no replacement characters or long question-mark runs in changed frontend files. `node --check static/app.js` and `git diff --check` passed.
 - Screenshot refreshed at screenshots/desktop.png. This change only edits displayed text and README; routing contracts and persisted targets retain their existing implementation.
+
+## 2026-10-02 10:09:17: explicitly apply Naraka direct rules
+
+- User requested direct installation of the Naraka set. All five targets already existed; reapplied without duplicate targets.
+- Actual core validation/reload succeeded. Read back first five /rules entries: DomainSuffix yjwujian.cn, narakathegame.com, d90.gdl.netease.com, d90-06.gdl.netease.com and ProcessPathRegex for G:/Naraka; every proxy is DIRECT. Exact compiled-prefix comparison passed.
+- Global-script persistence and live effective state both true; rule mode and enabled TUN retained. Backup: data/backups/20261002-100917-33c04424. Detailed local evidence: data/naraka-apply-verification.json.
+- Observed 18 related connections; no NarakaBladepoint.exe process connection. Core reported hits on both a download-domain rule and the directory rule; this is not verification of a gameplay session.
+
+## 2026-10-02 10:14:49: cloudgame direct destination
+
+- User supplied https://cloudgame.ds.163.com/yjwj?utm_source=yjwjfab. Added normalized domain cloudgame.ds.163.com without retaining URL path or tracking query in the rule.
+- Actual core validation/reload succeeded with six managed targets. Read back index 5: DomainSuffix cloudgame.ds.163.com, proxy DIRECT. Persisted/effective flags both true; mode=rule and TUN enabled retained.
+- Backup: data/backups/20261002-101449-a6095763. Local result: data/cloudgame-apply-verification.json. This confirms rule installation; the remote website response and accessibility were not tested.
+
+## 2026-10-02: one-click BAT lifecycle
+
+- Added start.bat, restart.bat, stop.bat, shared launcher action and Windows process identity checks. Existing cmd/vbs use the same start flow. No backend or core mutation is performed by lifecycle actions.
+- Automated suite: 26 tests passed (0.830s), including verified/foreign listener identity, idle stop, health mismatch, and shared existing routing/HTTP regression tests.
+- Windows native check found WMI CreationDate truncates FILETIME to microseconds (observed 100ns delta=2). Creation comparison now uses the documented WMI precision while retaining the actual process handle.
+- Executed real restart.bat: exit 0, old listener PID replaced, new server healthy. Executed start.bat on the running server: exit 0, same listener PID retained. Executed stop.bat: exit 0, port released, health offline. Second stop.bat when idle: exit 0. Executed start.bat again: exit 0, server healthy and left running.
+- Targets and exact Verge generated config/global Script hashes compared before/after: unchanged. Effective/persisted true, rule mode, enabled TUN retained. Evidence saved locally to data/lifecycle-verification.json.
+- After tightening identity to the exact script argument (rejecting Python -c with app.py as an unrelated argument), final suite again passed: 26 tests (0.821s). Saved integration assertions passed; live listener still matches project identity and health is online. UTF-8 readback and git diff check passed.

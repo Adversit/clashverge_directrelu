@@ -1,0 +1,3 @@
+@echo off
+powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "%~dp0start.ps1" -Action restart
+exit /b %errorlevel%

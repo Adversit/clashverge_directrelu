@@ -2,7 +2,13 @@
 
 基于 Clash Verge 的 Windows 本地网页工具，用于管理国内网站、游戏和其他本地程序的 DIRECT 规则，并查看目标的真实连接通道。
 
-双击 **start.vbs** 静默启动并打开 [管理页面](http://127.0.0.1:17891)。也可双击 start.cmd。页面仅监听本机 127.0.0.1:17891。重复启动会复用当前服务。
+双击 **start.vbs** 静默启动并打开 [管理页面](http://127.0.0.1:17891)。也可双击 start.bat 或 start.cmd。页面仅监听本机 127.0.0.1:17891。重复启动会复用当前服务。
+
+- **start.bat**：一键启动并打开页面。
+- **restart.bat**：一键停止本工具当前网页服务，再启动并打开页面。
+- **stop.bat**：一键停止本工具网页服务；服务未运行时也可执行。
+
+这些脚本会保留直连清单和已经写入 Clash Verge 的规则。停止前核对本工具的端口、健康标识、绝对程序路径和进程创建时间；遇到其他程序占用端口时会提示错误。
 
 首次使用需要 Python 3.10+、Node.js 和 Clash Verge Rev。启动脚本创建独立 .venv 并安装 requirements.txt 中固定版本的 PyYAML。当前机器环境已准备好。
 
@@ -27,4 +33,4 @@ TUN 负责接管流量，规则模式决定通道。关闭 TUN 后，遵循系�
 
 开发验证：`.venv\Scripts\python.exe -m unittest discover -s tests -v`。直接运行服务：`.venv\Scripts\python.exe app.py`。
 
-需要停止服务时，可用 `Get-NetTCPConnection -LocalAddress 127.0.0.1 -LocalPort 17891 -State Listen` 找到本工具监听进程，核对进程命令行确实指向本项目 app.py 后再停止。关闭网页不会停止服务，已写入规则也会保留。
+需要停止服务时，双击 stop.bat。关闭网页不会停止服务，已写入规则也会保留。

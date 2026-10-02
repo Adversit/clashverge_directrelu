@@ -58,3 +58,14 @@ Focused tests must cover input, ownership, transactions and runtime readback. Wr
 - data/backups holds original config/script and a transaction journal; failed reload/readback attempts rollback, with explicit recovery-required status if rollback cannot be confirmed. Pending crash journals block new apply until recovery (POST /api/recover).
 - Additional affected files: launcher.py, start.vbs, tests/test_manager.py, tests/test_http.py. start.vbs launches hidden; launcher holds a Windows mutex, installs pinned dependency when missing, checks server identity and opens the page. Port conflicts never terminate other processes.
 - No deletion of the old mailbox checkout is required: existing partial files already reside in the requested independent directory.
+
+## Lifecycle scripts contract (2026-10-02)
+
+1. Ownership: Windows listener at 127.0.0.1:17891 owns running status; all lifecycle actions share the existing launcher mutex. Rules and target data retain their existing owners.
+2. Input/output: start.bat / restart.bat / stop.bat -> start.ps1 -Action start|restart|stop -> launcher.py --action. Launcher returns 0 on success; visible error dialog and nonzero on unsafe process identity or startup failure. PowerShell waits for the launcher process only, not its persistent server child.
+3. Affected files: launcher.py, start.ps1, start.bat, restart.bat, stop.bat, tests/test_launcher.py, README.md, SPEC.md, TEST_RECORD.md. Backend HTTP contract, store schemas and Verge adapter do not change.
+4. Removal: replace start-only main flow with a shared locked lifecycle flow. Retain start.cmd/start.vbs compatibility; no broad taskkill or process-name termination paths.
+5. Acceptance: restart replaces the old listener and returns a healthy page; stop releases the port; stopping when idle succeeds; repeated start reuses the same listener. Existing targets, persisted DIRECT rules, mode and TUN remain unchanged.
+6. Failure branches: missing Python, occupied port, unrelated listener, mismatched app path, vanished/reused PID, simultaneous operations and startup timeout. Termination requires expected health identity, exact absolute app.py argument, Python executable and matching Windows creation FILETIME at WMI microsecond precision on a retained process handle. Refuse ambiguous processes. Serialize actions with the launcher mutex.
+
+Review pass 1: entry BAT -> PowerShell -> launcher -> loopback listener. Review pass 2: inspect default venv parent/base Python child, runtime process identity, original cmd/vbs startup, state persistence and core rules; stopping the website must not call core reload/restore.
